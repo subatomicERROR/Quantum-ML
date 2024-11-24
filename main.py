@@ -30,7 +30,7 @@ model = QuantumModel()
 
 # Pydantic model for the POST request
 class InputValue(BaseModel):
-    value: float
+    input_value: float  # Changed field name to match the test input
 
 @app.get("/")
 def read_root():
@@ -44,10 +44,10 @@ def get_status():
 @app.post("/quantum-ai/predict")
 def predict(input_value: InputValue):
     # Get quantum result
-    quantum_result = quantum_circuit(input_value.value)
+    quantum_result = quantum_circuit(input_value.input_value)  # Access input_value here
     
     # Get classical result
-    classical_result = model(torch.tensor([[input_value.value]]))
+    classical_result = model(torch.tensor([[input_value.input_value]]))  # Pass input_value here
     
     # Return both results
     return {"quantum_result": quantum_result, "classical_result": classical_result.item()}
