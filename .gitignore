@@ -1,1 +1,14 @@
+# Ignore the virtual environment
 venv/
+
+# Ignore Python bytecode and cache files
+__pycache__/
+
+# Ignore pytest cache
+pytest_cache/
+
+# Ignore IDE/editor settings (optional, but useful for a clean repo)
+.vscode/
+
+# Ignore the FastAPI Uvicorn server log files (optional)
+*.log
