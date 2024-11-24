@@ -1,0 +1,5 @@
+pennylane
+torch
+fastapi
+uvicorn
+pytest
