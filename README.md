@@ -59,7 +59,8 @@ Here are the core dependencies:
 
 1. **Start the FastAPI server**:
    ```bash
-   uvicorn main:app --reload
+   python -m uvicorn main:app --reload
+
    ```
 
 2. The FastAPI server will be running locally on `http://127.0.0.1:8000`. You can interact with the API via Swagger UI at `http://127.0.0.1:8000/docs`.

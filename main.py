@@ -3,34 +3,34 @@ import pennylane as qml
 from fastapi import FastAPI
 from pydantic import BaseModel  # For data validation
 
-# Create FastAPI app instance
+# Initialize FastAPI app instance
 app = FastAPI()
 
-# Define a quantum device using PennyLane
-dev = qml.device("default.qubit", wires=1)
+# Define quantum device (extended to 3 wires for better flexibility)
+dev = qml.device("default.qubit", wires=3)
 
-# Define a simple quantum circuit using PennyLane
+# Define the quantum circuit (increased complexity)
 @qml.qnode(dev)
 def quantum_circuit(x):
     qml.Hadamard(wires=0)
     qml.RX(x, wires=0)
+    qml.RY(x, wires=1)
+    qml.CNOT(wires=[0, 1])
+    qml.CNOT(wires=[1, 2])
     return qml.expval(qml.PauliZ(0))
 
-# Classical Machine Learning Model (PyTorch)
+# Classical Machine Learning Model (Hybrid model for better results)
 class QuantumModel(torch.nn.Module):
     def __init__(self):
         super().__init__()
-        self.linear = torch.nn.Linear(1, 1)  # Simple linear model
+        self.linear = torch.nn.Linear(3, 1)
 
     def forward(self, x):
         return self.linear(x)
 
-# Initialize the model
-model = QuantumModel()
-
-# Pydantic model for the POST request
+# Pydantic model for the POST request (to handle input data)
 class InputValue(BaseModel):
-    input_value: float  # Changed field name to match the test input
+    input_value: float  # Input value for prediction
 
 @app.get("/")
 def read_root():
@@ -38,16 +38,22 @@ def read_root():
 
 @app.get("/quantum-ai/status")
 def get_status():
-    return {"status": "Quantum AI is running!"}
+    return {"status": "Quantum AI is up and running!"}
 
-# Endpoint for making predictions using both Quantum and Classical models
+# Hybrid endpoint for predictions (quantum + classical)
 @app.post("/quantum-ai/predict")
 def predict(input_value: InputValue):
     # Get quantum result
-    quantum_result = quantum_circuit(input_value.input_value)  # Access input_value here
+    quantum_result = quantum_circuit(input_value.input_value)
     
-    # Get classical result
-    classical_result = model(torch.tensor([[input_value.input_value]]))  # Pass input_value here
+    # Classical result using the hybrid model
+    classical_model = QuantumModel()
+    classical_result = classical_model(torch.tensor([[quantum_result]], dtype=torch.float32))
     
-    # Return both results
     return {"quantum_result": quantum_result, "classical_result": classical_result.item()}
+
+# This endpoint is a placeholder to simulate API usage for the freemium model
+@app.post("/quantum-ai/subscribe")
+def subscribe_to_api(user_email: str):
+    # Simulate API subscription logic
+    return {"status": "Subscription successful", "email": user_email}
