@@ -1,6 +1,4 @@
-
-```markdown
-# Quantum-ML
+Quantum-ML
 
 ## Overview
 
