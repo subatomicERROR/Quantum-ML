@@ -12,25 +12,26 @@ dev = qml.device("default.qubit", wires=3)
 # Define the quantum circuit (increased complexity)
 @qml.qnode(dev)
 def quantum_circuit(x):
-    qml.Hadamard(wires=0)
-    qml.RX(x, wires=0)
-    qml.RY(x, wires=1)
-    qml.CNOT(wires=[0, 1])
-    qml.CNOT(wires=[1, 2])
-    return qml.expval(qml.PauliZ(0))
+    # Quantum gates applied on different wires
+    qml.Hadamard(wires=0)  # Hadamard gate on qubit 0
+    qml.RX(x, wires=0)      # Rotation on qubit 0
+    qml.RY(x, wires=1)      # Rotation on qubit 1
+    qml.CNOT(wires=[0, 1])  # CNOT gate between qubits 0 and 1
+    qml.CNOT(wires=[1, 2])  # CNOT gate between qubits 1 and 2
+    return qml.expval(qml.PauliZ(0))  # Measure Pauli-Z on qubit 0
 
 # Classical Machine Learning Model (Hybrid model for better results)
 class QuantumModel(torch.nn.Module):
     def __init__(self):
         super().__init__()
-        self.linear = torch.nn.Linear(3, 1)
+        self.linear = torch.nn.Linear(3, 1)  # Simple linear model with 3 input features
 
     def forward(self, x):
-        return self.linear(x)
+        return self.linear(x)  # Pass input through the linear layer
 
 # Pydantic model for the POST request (to handle input data)
 class InputValue(BaseModel):
-    input_value: float  # Input value for prediction
+    input_value: float  # Input value for prediction (will be used in the quantum circuit)
 
 @app.get("/")
 def read_root():
@@ -43,16 +44,20 @@ def get_status():
 # Hybrid endpoint for predictions (quantum + classical)
 @app.post("/quantum-ai/predict")
 def predict(input_value: InputValue):
-    # Get quantum result
+    # Get quantum result using the quantum circuit
     quantum_result = quantum_circuit(input_value.input_value)
     
-    # Classical result using the hybrid model
+    # Classical result using the hybrid model (taking quantum result as input)
     classical_model = QuantumModel()
-    classical_result = classical_model(torch.tensor([[quantum_result]], dtype=torch.float32))
+    
+    # Adjust the quantum_result shape to (1, 3) for the linear layer to accept
+    input_tensor = torch.tensor([[quantum_result, quantum_result, quantum_result]], dtype=torch.float32)
+    
+    classical_result = classical_model(input_tensor)  # Pass through the model
     
     return {"quantum_result": quantum_result, "classical_result": classical_result.item()}
 
-# This endpoint is a placeholder to simulate API usage for the freemium model
+# Placeholder for the API subscription endpoint (simulate freemium model)
 @app.post("/quantum-ai/subscribe")
 def subscribe_to_api(user_email: str):
     # Simulate API subscription logic
