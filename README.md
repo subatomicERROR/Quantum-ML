@@ -1,4 +1,4 @@
-Quantum-ML
+# Quantum-ML
 
 ## Overview
 
@@ -17,8 +17,8 @@ The uniqueness of **Quantum-ML** lies in its ability to use quantum circuits to 
 
 - **Quantum Framework**: [PennyLane](https://pennylane.ai) – A leading library for quantum computing and quantum machine learning, which powers our quantum circuits and models.
 - **AI/ML Framework**: [PyTorch](https://pytorch.org) – Used for implementing and training classical machine learning models, providing deep integration with PennyLane for hybrid models.
-- **API Development**: [FastAPI](https://fastapi.tiangolo.com) – A high-performance web framework to build and expose APIs quickly and efficiently.
-- **Quantum Programming**: [PennyLane](https://pennylane.ai) again – PennyLane is used instead of Qiskit for building the quantum circuits in this project.
+- **API Development**: [Quantum-API](https://github.com/subatomicERROR/Quantum-API.git) – A high-performance quantum API to build and expose quantum-enhanced models quickly and efficiently.
+- **Quantum Programming**: [PennyLane](https://pennylane.ai) – PennyLane is used instead of Qiskit for building the quantum circuits in this project.
 - **Version Control**: Git and GitHub – For managing project code and versioning, ensuring collaboration and contribution from the open-source community.
 
 ## Why Quantum-ML is Unique
@@ -52,18 +52,17 @@ Here are the core dependencies:
 
 - `pennylane` – For quantum computing and machine learning.
 - `torch` – For machine learning and AI, used alongside PennyLane.
-- `fastapi` – To build and expose the Quantum-ML API.
-- `uvicorn` – ASGI server for running the FastAPI app.
+- `quantum-api` – To build and expose the Quantum-ML API.
+- `uvicorn` – ASGI server for running the Quantum-API app.
 
 ### Running the Quantum AI Model
 
-1. **Start the FastAPI server**:
+1. **Start the Quantum-API server**:
    ```bash
-   python -m uvicorn main:app --reload
-
+   python -m quantum_api.main:app --reload
    ```
 
-2. The FastAPI server will be running locally on `http://127.0.0.1:8000`. You can interact with the API via Swagger UI at `http://127.0.0.1:8000/docs`.
+2. The Quantum-API server will be running locally on `http://127.0.0.1:8000`. You can interact with the API via Swagger UI at `http://127.0.0.1:8000/docs`.
 
 ### Running Tests
 
@@ -96,10 +95,11 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 
 For any questions, feel free to reach out:
 
-- Email: [your-email@example.com](mailto:iamyash.creator@gmail.com )
+- Email: [your-email@example.com](mailto:iamyash.creator@gmail.com)
 - GitHub: [https://github.com/subatomicERROR](https://github.com/subatomicERROR)
 
 ---
 
 **Disclaimer**: This project is still under development, and some features may change over time. Contributions and suggestions are highly appreciated.
+
 
