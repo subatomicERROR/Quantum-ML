@@ -1,10 +1,10 @@
 import torch
 import pennylane as qml
-from fastapi import FastAPI
+from quantum_api import QuantumAPI  # Import Quantum-API instead of FastAPI
 from pydantic import BaseModel  # For data validation
 
-# Initialize FastAPI app instance
-app = FastAPI()
+# Initialize QuantumAPI app instance (replaces FastAPI)
+app = QuantumAPI()
 
 # Define quantum device (extended to 3 wires for better flexibility)
 dev = qml.device("default.qubit", wires=3)
@@ -33,16 +33,16 @@ class QuantumModel(torch.nn.Module):
 class InputValue(BaseModel):
     input_value: float  # Input value for prediction (will be used in the quantum circuit)
 
-@app.get("/")
+@app.get("/")  # Replaces FastAPI route
 def read_root():
     return {"message": "Welcome to the Quantum AI Project API"}
 
-@app.get("/quantum-ai/status")
+@app.get("/quantum-ai/status")  # Replaces FastAPI route
 def get_status():
     return {"status": "Quantum AI is up and running!"}
 
 # Hybrid endpoint for predictions (quantum + classical)
-@app.post("/quantum-ai/predict")
+@app.post("/quantum-ai/predict")  # Replaces FastAPI route
 def predict(input_value: InputValue):
     # Get quantum result using the quantum circuit
     quantum_result = quantum_circuit(input_value.input_value)
@@ -58,7 +58,7 @@ def predict(input_value: InputValue):
     return {"quantum_result": quantum_result, "classical_result": classical_result.item()}
 
 # Placeholder for the API subscription endpoint (simulate freemium model)
-@app.post("/quantum-ai/subscribe")
+@app.post("/quantum-ai/subscribe")  # Replaces FastAPI route
 def subscribe_to_api(user_email: str):
     # Simulate API subscription logic
     return {"status": "Subscription successful", "email": user_email}
