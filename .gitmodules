@@ -1,3 +1,6 @@
 [submodule "submodules/Quantum-API"]
 	path = submodules/Quantum-API
 	url = https://github.com/subatomicERROR/Quantum-API.git
+[submodule "submodules/Quantum-ML/Quantum_API"]
+	path = submodules/Quantum-ML/Quantum_API
+	url = https://github.com/subatomicERROR/Quantum-API.git
